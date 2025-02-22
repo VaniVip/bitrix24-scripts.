@@ -5,7 +5,6 @@
 
         if (!toolbar) {
             console.warn("⚠️ Контейнер для кнопки не найден! Пробуем снова через 1 секунду...");
-            setTimeout(addKanbanButton, 1000); // Повторяем через 1 сек.
             return;
         }
 
@@ -29,8 +28,12 @@
         console.log("✅ Кнопка успешно добавлена!");
     }
 
-    // Ждём загрузки DOM перед выполнением
-    document.addEventListener("DOMContentLoaded", () => {
-        setTimeout(addKanbanButton, 500); // Первоначальная проверка через 0.5 сек.
-    });
+    // Ждём появления контейнера, проверяя каждые 500 мс
+    let checkExist = setInterval(() => {
+        let toolbar = document.querySelector(".ui-toolbar-right-buttons");
+        if (toolbar) {
+            clearInterval(checkExist); // Останавливаем проверку, если контейнер найден
+            addKanbanButton();
+        }
+    }, 500);
 })();
