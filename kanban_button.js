@@ -1,31 +1,33 @@
-BX24.init(function(){
-    console.log("✅ kanban_button.js загружен через PHP!");
+(function() {
+    function addKanbanButton() {
+        console.log("🔄 Проверяем, есть ли кнопка в UI...");
+        let toolbar = document.querySelector(".ui-toolbar-right-buttons");
 
-    window.addKanbanButton = function() {
-        console.log("🔹 Функция addKanbanButton запущена");
-
-        let kanbanRightPanel = document.querySelector(".ui-toolbar-right-buttons");
-
-        if (kanbanRightPanel) {
-            if (!document.getElementById("openAppButton")) {
-                let openAppButton = document.createElement("button");
-                openAppButton.innerText = "Открыть приложение";
-                openAppButton.id = "openAppButton";
-                openAppButton.className = "ui-btn ui-btn-primary";
-                openAppButton.style.display = "block";
-                openAppButton.onclick = function() {
-                    BX24.openApplication();
-                };
-                kanbanRightPanel.appendChild(openAppButton);
-                console.log("✅ Кнопка 'Открыть приложение' добавлена в Канбан.");
-            } else {
-                console.log("⚠️ Кнопка уже существует.");
-            }
-        } else {
-            console.log("⏳ Канбан не найден, пробуем снова...");
-            setTimeout(window.addKanbanButton, 2000);
+        if (!toolbar) {
+            console.warn("⚠️ Контейнер для кнопки не найден!");
+            return;
         }
-    };
 
-    setTimeout(window.addKanbanButton, 3000);
-});
+        // Проверяем, нет ли уже кнопки
+        if (document.querySelector("#kanbanAppButton")) {
+            console.log("✅ Кнопка уже есть, повторное добавление не требуется.");
+            return;
+        }
+
+        console.log("➕ Добавляем кнопку...");
+        let button = document.createElement("button");
+        button.innerText = "Открыть приложение";
+        button.className = "ui-btn ui-btn-primary";
+        button.id = "kanbanAppButton";
+        button.onclick = function() {
+            console.log("🚀 Открываем приложение...");
+            BX24.openApplication();
+        };
+
+        toolbar.appendChild(button);
+        console.log("✅ Кнопка успешно добавлена!");
+    }
+
+    // Ждём загрузки DOM перед выполнением
+    document.addEventListener("DOMContentLoaded", addKanbanButton);
+})();
