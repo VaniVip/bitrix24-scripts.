@@ -1,39 +1,41 @@
-(function() {
-    function addKanbanButton() {
-        console.log("🔄 Проверяем, есть ли кнопка в UI...");
-        let toolbar = document.querySelector(".ui-toolbar-right-buttons");
+(function () {
+    function addDealButton() {
+        console.log("🔄 Проверяем, есть ли кнопка в карточке сделки...");
+        let dealToolbar = document.querySelector(".crm-entity-section-control");
 
-        if (!toolbar) {
-            console.warn("⚠️ Контейнер для кнопки не найден! Пробуем снова через 1 секунду...");
+        if (!dealToolbar) {
+            console.warn("⚠️ Контейнер для кнопки не найден!");
             return;
         }
 
-        // Проверяем, нет ли уже кнопки
-        if (document.querySelector("#kanbanAppButton")) {
+        if (document.querySelector("#dealAppButton")) {
             console.log("✅ Кнопка уже есть, повторное добавление не требуется.");
             return;
         }
 
-        console.log("➕ Добавляем кнопку...");
+        console.log("➕ Добавляем кнопку в карточку сделки...");
         let button = document.createElement("button");
         button.innerText = "Открыть приложение";
         button.className = "ui-btn ui-btn-primary";
-        button.id = "kanbanAppButton";
+        button.id = "dealAppButton";
         button.onclick = function() {
             console.log("🚀 Открываем приложение...");
             BX24.openApplication();
         };
 
-        toolbar.appendChild(button);
-        console.log("✅ Кнопка успешно добавлена!");
+        dealToolbar.appendChild(button);
+        console.log("✅ Кнопка успешно добавлена в карточку сделки!");
     }
 
-    // Ждём появления контейнера, проверяя каждые 500 мс
-    let checkExist = setInterval(() => {
-        let toolbar = document.querySelector(".ui-toolbar-right-buttons");
-        if (toolbar) {
-            clearInterval(checkExist); // Останавливаем проверку, если контейнер найден
-            addKanbanButton();
-        }
-    }, 500);
+    // Ждём загрузки DOM перед выполнением
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(addDealButton, 3000); // Ждём 3 секунды
+    });
+
+    // Если пользователь открывает карточку сделки, добавляем кнопку снова
+    let observer = new MutationObserver(() => {
+        addDealButton();
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
 })();
