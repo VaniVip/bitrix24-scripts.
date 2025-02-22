@@ -31,3 +31,5 @@
     // Ждём загрузки DOM перед выполнением
     document.addEventListener("DOMContentLoaded", addKanbanButton);
 })();
+// Автоматически вызываем функцию после загрузки
+addKanbanButton();
