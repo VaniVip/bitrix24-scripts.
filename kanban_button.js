@@ -30,6 +30,9 @@
 
     // Ждём загрузки DOM перед выполнением
     document.addEventListener("DOMContentLoaded", addKanbanButton);
+
+    // Если DOM уже загружен, вызываем сразу
+    if (document.readyState === "interactive" || document.readyState === "complete") {
+        addKanbanButton();
+    }
 })();
-// Автоматически вызываем функцию после загрузки
-addKanbanButton();
