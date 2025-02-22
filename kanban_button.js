@@ -4,10 +4,12 @@
         let toolbar = document.querySelector(".ui-toolbar-right-buttons");
 
         if (!toolbar) {
-            console.warn("⚠️ Контейнер для кнопки не найден!");
+            console.warn("⚠️ Контейнер для кнопки не найден! Пробуем снова через 1 секунду...");
+            setTimeout(addKanbanButton, 1000); // Повторяем через 1 сек.
             return;
         }
 
+        // Проверяем, нет ли уже кнопки
         if (document.querySelector("#kanbanAppButton")) {
             console.log("✅ Кнопка уже есть, повторное добавление не требуется.");
             return;
@@ -27,6 +29,8 @@
         console.log("✅ Кнопка успешно добавлена!");
     }
 
-    // Запускаем сразу после загрузки
-    addKanbanButton();
+    // Ждём загрузки DOM перед выполнением
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(addKanbanButton, 500); // Первоначальная проверка через 0.5 сек.
+    });
 })();
