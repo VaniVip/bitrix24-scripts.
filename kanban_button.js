@@ -8,7 +8,6 @@
             return;
         }
 
-        // Проверяем, нет ли уже кнопки
         if (document.querySelector("#kanbanAppButton")) {
             console.log("✅ Кнопка уже есть, повторное добавление не требуется.");
             return;
@@ -28,11 +27,6 @@
         console.log("✅ Кнопка успешно добавлена!");
     }
 
-    // Ждём загрузки DOM перед выполнением
-    document.addEventListener("DOMContentLoaded", addKanbanButton);
-
-    // Если DOM уже загружен, вызываем сразу
-    if (document.readyState === "interactive" || document.readyState === "complete") {
-        addKanbanButton();
-    }
+    // Запускаем сразу после загрузки
+    addKanbanButton();
 })();
